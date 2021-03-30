@@ -29,7 +29,7 @@ const initialState: AppState = {
   },
   charts: {},
   fetchErrorMessage: null,
-  iexApiKey: "",
+  iexApiKey: "pk_c16fab86df1d4826999b8bb7d051ef17",
   isFetchingAllIexSymbols: false,
   isFetchingCount: 0,
   nextTransactionId: 1,
