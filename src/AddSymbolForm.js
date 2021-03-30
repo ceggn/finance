@@ -4,6 +4,9 @@ import * as React from "react";
 import {Button, Col, Collapse, Form, FormGroup, Input, Label, Row} from "reactstrap";
 import formSerialize from "form-serialize";
 import {useEffect} from "react";
+import { useDispatch, useSelector} from "react-redux";
+import type { Dispatch } from "./types";
+import {fetchAllExchanges} from "./actions";
 
 type Props = {
   isLoading: boolean,
@@ -12,17 +15,14 @@ type Props = {
 
 export default function AddSymbolForm(props: Props): React.Node {
   const [showTransactionData, setShowTransactionData] = React.useState(false);
-  const [exchanges, setExchanges] = React.useState([]);
+  const exchanges = useSelector(state => state.exchanges);
+  const dispatch = useDispatch<Dispatch>();
 
   useEffect(()=>{
-    fetch("https://cloud.iexapis.com/v1/ref-data/exchanges?token="+JSON.parse((localStorage['default'] || '{}'))['iexApiKey'])
-        .then(res => res.json())
-        .then(
-            (result) => {
-              setExchanges(result);
-            }
-        )
-  },[])
+    if(exchanges.length === 0){
+      dispatch(fetchAllExchanges());
+    }
+  },[]);
 
   const formEl = React.useRef(null);
 

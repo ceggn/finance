@@ -36,6 +36,7 @@ const initialState: AppState = {
   quotes: {},
   symbols: symbols,
   transactions: transactions,
+  exchanges: [],
   updatedAt: null,
 };
 

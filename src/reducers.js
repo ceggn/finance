@@ -175,6 +175,11 @@ export default function (state: AppState, action: Action): AppState {
         ...state,
         iexApiKey: action.iexApiKey,
       };
+    case "SET_EXCHANGES":
+      return {
+        ...state,
+        exchanges: action.exchanges,
+      };
     default:
       return state;
   }

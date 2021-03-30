@@ -159,6 +159,18 @@ export function fetchAllQuotes(): ThunkAction {
   };
 }
 
+export function fetchAllExchanges(): ThunkAction {
+  return function (dispatch: Dispatch, getState: GetState) {
+    fetch("https://cloud.iexapis.com/v1/ref-data/exchanges?token="+JSON.parse((localStorage['default'] || '{}'))['iexApiKey'])
+        .then(res => res.json())
+        .then(
+            (result) => {
+              dispatch({exchanges: result, type: 'SET_EXCHANGES'});
+            }
+        )
+  };
+}
+
 export function fetchAllIexSymbols(): ThunkAction {
   return function (dispatch: Dispatch, getState: GetState) {
     dispatch({ type: "FETCH_ALL_IEX_SYMBOLS_REQUEST" });
