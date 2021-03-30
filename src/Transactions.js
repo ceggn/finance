@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Button, Col, Row } from "reactstrap";
 import type { AppSettings, AppState, Dispatch, Quote, Transaction } from "./types";
-import { changePageSize, deleteTransactions } from "./actions";
+import {changePageSize, deleteTransactions, HASH} from "./actions";
 import { currencyFormatter, numberFormatter } from "./formatters";
 import { Link } from "react-router-dom";
 import PortfolioContainer from "./PortfolioContainer";
@@ -101,6 +101,11 @@ class Transactions extends React.Component<Props, State> {
       // when changes are made.
       selectedTransactionIds: new Set(),
     };
+  }
+
+  componentDidMount() {
+    sessionStorage.getItem('auth-token') === null && sessionStorage.getItem('auth-token') != HASH ?
+        this.props.history.push('/login') : this.props.history.push('/transactions')
   }
 
   handleDeleteSelectedTransactions = () => {

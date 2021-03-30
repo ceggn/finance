@@ -3,7 +3,7 @@
 import * as React from "react";
 import {Button, Col, Row} from "reactstrap";
 import type {AppSettings, Dispatch, Quote, Transaction} from "./types";
-import {changePageSize, deleteSymbols} from "./actions";
+import {changePageSize, deleteSymbols, HASH} from "./actions";
 import {currencyFormatter, numberFormatter, percentFormatter} from "./formatters";
 import {Link} from "react-router-dom";
 import PortfolioContainer from "./PortfolioContainer";
@@ -220,6 +220,10 @@ class Performance extends React.Component<Props, State> {
             selectedSymbols: new Set(),
             marketValueTotal: 0
         };
+    }
+    componentDidMount() {
+        sessionStorage.getItem('auth-token') === null && sessionStorage.getItem('auth-token') != HASH ?
+            this.props.history.push('/login') : this.props.history.push('/performance')
     }
 
     handleDeleteSelectedSymbols = () => {
