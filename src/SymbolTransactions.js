@@ -70,8 +70,8 @@ export const transactions = [
         name: 'Encavis AG',
         type: 'Buy',
         date: '',
-        shares: 12,
-        price: 0,
+        shares: 1100,
+        price: 18.22,
         cashValue: null,
         commission: 0,
         notes: '',
@@ -307,8 +307,54 @@ export const transactions = [
         commission: 0,
         notes: '',
     },
+    {
+        symbol: 'UNVB-GY',
+        name: 'Unilever plc',
+        type: 'Buy',
+        date: '',
+        shares: 1800,
+        price: 46.66,
+        cashValue: null,
+        commission: 0,
+        notes: '',
+    },
+    {
+        symbol: 'URW-FP',
+        name: 'Unibail-Rodamco-Westfield - Stapled (2 Ordinary Shares)',
+        type: 'Buy',
+        date: '',
+        shares: 1080,
+        price: 113.27,
+        cashValue: null,
+        commission: 0,
+        notes: '',
+    },
+    {
+        symbol: 'WBA',
+        name: 'Walgreens Boots Alliance Inc',
+        type: 'Buy',
+        date: '',
+        shares: 200,
+        price: 52.72,
+        cashValue: null,
+        commission: 0,
+        notes: '',
+    },
+    {
+        symbol: 'ZURN-SE',
+        name: 'Zurich Insurance Group AG Ltd',
+        type: 'Buy',
+        date: '',
+        shares: 100,
+        price: 303.59,
+        cashValue: null,
+        commission: 0,
+        notes: '',
+    },
+
+
 
 ]
 export const symbols = [
-    'ALV-GY', 'AXA-GY', 'BAS-GY', 'BAYN-GY', 'BEI-GY', 'DAI-GY', 'ECV-GY', 'FRE-GY', 'HOT-GY', 'LHA-GY', 'SAP-GY', 'TLG-GY', 'TUI1-GY', 'WDI-GY', 'T', 'BTQ-GM', 'CCC3-GY', 'GZF-GY', 'GSK', 'INN1-GY', 'INTC', 'NOA3-GY', 'NOTA-GM', 'PRG-GY', '3RB-GF', 'SNW-GY', 'SCTA-GF', 'TNE5-GY'
+    'ALV-GY', 'AXA-GY', 'BAS-GY', 'BAYN-GY', 'BEI-GY', 'DAI-GY', 'ECV-GY', 'FRE-GY', 'HOT-GY', 'LHA-GY', 'SAP-GY', 'TLG-GY', 'TUI1-GY', 'WDI-GY', 'T', 'BTQ-GM', 'CCC3-GY', 'GZF-GY', 'GSK', 'INN1-GY', 'INTC', 'NOA3-GY', 'NOTA-GM', 'PRG-GY', '3RB-GF', 'SNW-GY', 'SCTA-GF', 'TNE5-GY', 'UNVB-GY', 'URW-FP', 'WBA', 'ZURN-SE'
 ]
