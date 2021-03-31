@@ -31,9 +31,9 @@ export default class PerformanceStats extends Component {
                 (result) => {
                     this.setState({fcraktien: (result * 1406000)}, () => {
                         this.setState({
-                            depotjulius: (this.state.marketValueTotal - this.state.fcraktien).toFixed(2),
+                            depotjulius: (this.state.marketValueTotal).toFixed(2),
                             zwischensumme:
-                                (this.state.marketValueTotal - this.state.darlehen).toFixed(2)
+                                (this.state.depotjulius- this.state.darlehen).toFixed(2)
                         }, () => {
                             this.setState({
                                 liquidationssaldo:
@@ -57,7 +57,7 @@ export default class PerformanceStats extends Component {
         }, () => {
             this.setState({
                 zwischensumme:
-                    (this.state.marketValueTotal - this.state.darlehen).toFixed(2),
+                    (this.state.depotjulius - this.state.darlehen).toFixed(2),
                 liquidationssaldo:
                     (parseFloat(this.state.kontostand) + parseFloat(this.state.zwischensumme)).toFixed(2),
                 ergebnis: (this.state.liquidationssaldo - this.state.dividende_2020 - this.state.dividende_2019 - this.state.geldtransfer_2020 - this.state.geldtransfer_2019).toFixed(2)
