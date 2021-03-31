@@ -198,7 +198,7 @@ export const transactions = [
         notes: '',
     },
     {
-        symbol: 'GSK',
+        symbol: 'GS7-GY',
         name: 'Glaxosmithkline plc - ADR',
         type: 'Buy',
         date: '',
@@ -269,7 +269,7 @@ export const transactions = [
         type: 'Buy',
         date: '',
         shares: 1100,
-        price: 63.18,
+        price: 72.98,
         cashValue: null,
         commission: 0,
         notes: '',
@@ -356,5 +356,5 @@ export const transactions = [
 
 ]
 export const symbols = [
-    'ALV-GY', 'AXA-GY', 'BAS-GY', 'BAYN-GY', 'BEI-GY', 'DAI-GY', 'ECV-GY', 'FRE-GY', 'HOT-GY', 'LHA-GY', 'SAP-GY', 'TLG-GY', 'TUI1-GY', 'WDI-GY', 'T', 'BTQ-GM', 'CCC3-GY', 'GZF-GY', 'GSK', 'INN1-GY', 'INTC', 'NOA3-GY', 'NOTA-GM', 'PRG-GY', '3RB-GF', 'SNW-GY', 'SCTA-GF', 'TNE5-GY', 'UNVB-GY', 'URW-FP', 'WBA', 'ZURN-SE'
+    'ALV-GY', 'AXA-GY', 'BAS-GY', 'BAYN-GY', 'BEI-GY', 'DAI-GY', 'ECV-GY', 'FRE-GY', 'HOT-GY', 'LHA-GY', 'SAP-GY', 'TLG-GY', 'TUI1-GY', 'WDI-GY', 'T', 'BTQ-GM', 'CCC3-GY', 'GZF-GY', 'GS7-GY', 'INN1-GY', 'INTC', 'NOA3-GY', 'NOTA-GM', 'PRG-GY', '3RB-GF', 'SNW-GY', 'SCTA-GF', 'TNE5-GY', 'UNVB-GY', 'URW-FP', 'WBA', 'ZURN-SE'
 ]
