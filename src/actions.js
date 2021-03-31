@@ -18,7 +18,7 @@ import type {
 import csvParse from "csv-parse/lib/es5/sync";
 import {transformGfToStocks} from "./transformers";
 
-const IEX_ROOT = "https://cloud.iexapis.com/v1";
+export const IEX_ROOT = "https://cloud.iexapis.com/v1";
 
 export function addSymbol(symbol: string): AddSymbolAction {
     return {symbol, type: "ADD_SYMBOL"};
@@ -160,9 +160,21 @@ export function fetchAllQuotes(): ThunkAction {
             });
     };
 }
-
 export function fetchAllExchanges(): ThunkAction {
     return function (dispatch: Dispatch, getState: GetState) {
+        fetch("https://cloud.iexapis.com/v1/ref-data/exchanges?token=" + JSON.parse((localStorage['default'] || '{}'))['iexApiKey'])
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    dispatch({exchanges: result, type: 'SET_EXCHANGES'});
+                }
+            )
+    };
+}
+
+export function fetchSymbolPrice(): ThunkAction {
+    return function (dispatch: Dispatch, getState: GetState) {
+
         fetch("https://cloud.iexapis.com/v1/ref-data/exchanges?token=" + JSON.parse((localStorage['default'] || '{}'))['iexApiKey'])
             .then(res => res.json())
             .then(

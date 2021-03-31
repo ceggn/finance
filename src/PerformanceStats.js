@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Table} from "reactstrap";
+import {IEX_ROOT} from "./actions";
 
 export default class PerformanceStats extends Component {
 
@@ -23,6 +24,18 @@ export default class PerformanceStats extends Component {
         this.__handleFieldChange = this.__handleFieldChange.bind(this);
     }
 
+    componentDidMount() {
+        fetch(`${IEX_ROOT}/stock/FC9-GY/price?token=${JSON.parse((localStorage['default'] || '{}'))['iexApiKey']}`)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({fcraktien: (result * 1406000)}, () => {
+                        this.setState({depotjulius: (this.state.marketValueTotal - this.state.fcraktien).toFixed(2)})
+                    })
+                }
+            )
+    }
+
     __handleFieldChange(event) {
         //simple data fields
         this.setState({
@@ -33,10 +46,7 @@ export default class PerformanceStats extends Component {
                     (this.state.marketValueTotal - this.state.darlehen).toFixed(2),
                 liquidationssaldo:
                     (parseFloat(this.state.kontostand) + parseFloat(this.state.zwischensumme)).toFixed(2),
-                ergebnis: (this.state.liquidationssaldo - this.state.dividende_2020 - this.state.dividende_2019 - this.state.geldtransfer_2020 - this.state.geldtransfer_2019).toFixed(2),
-                depotjulius: (this.state.marketValueTotal - this.state.fcraktien).toFixed(2),
-
-
+                ergebnis: (this.state.liquidationssaldo - this.state.dividende_2020 - this.state.dividende_2019 - this.state.geldtransfer_2020 - this.state.geldtransfer_2019).toFixed(2)
             })
         })
 
@@ -55,8 +65,7 @@ export default class PerformanceStats extends Component {
                             <h4>Depot</h4>
                             <tr>
                                 <td>FCR Aktien</td>
-                                <td><input type="number" className="form-text" onChange={this.__handleFieldChange}
-                                           name={"fcraktien"}/></td>
+                                <td>{this.state.fcraktien}</td>
                             </tr>
                             <tr>
                                 <td>Depot Julius Bär</td>
