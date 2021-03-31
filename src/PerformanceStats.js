@@ -10,12 +10,12 @@ export default class PerformanceStats extends Component {
             marketValueTotal: props.marketValueTotal,
             fcraktien: 0,
             depotjulius: 0,
-            darlehen: 0,
-            kontostand: 0,
-            dividende_2020: 0,
-            dividende_2019: 0,
-            geldtransfer_2020: 0,
-            geldtransfer_2019: 0,
+            darlehen: 5,
+            kontostand: 10,
+            dividende_2020: 20,
+            dividende_2019: 30,
+            geldtransfer_2020: 20,
+            geldtransfer_2019: 30,
             zwischensumme: 0,
             liquidationssaldo: 0,
             ergebnis: 0
@@ -30,7 +30,21 @@ export default class PerformanceStats extends Component {
             .then(
                 (result) => {
                     this.setState({fcraktien: (result * 1406000)}, () => {
-                        this.setState({depotjulius: (this.state.marketValueTotal - this.state.fcraktien).toFixed(2)})
+                        this.setState({
+                            depotjulius: (this.state.marketValueTotal - this.state.fcraktien).toFixed(2),
+                            zwischensumme:
+                                (this.state.marketValueTotal - this.state.darlehen).toFixed(2)
+                        }, () => {
+                            this.setState({
+                                liquidationssaldo:
+                                    (parseFloat(this.state.kontostand) + parseFloat(this.state.zwischensumme)).toFixed(2)
+                            }, () => {
+                                this.setState({
+
+                                    ergebnis: (this.state.liquidationssaldo - this.state.dividende_2020 - this.state.dividende_2019 - this.state.geldtransfer_2020 - this.state.geldtransfer_2019).toFixed(2)
+                                })
+                            })
+                        })
                     })
                 }
             )
@@ -75,7 +89,7 @@ export default class PerformanceStats extends Component {
                             <tr>
                                 <td>Darlehen</td>
                                 <td><input type="number" className="form-text" onChange={this.__handleFieldChange}
-                                           name={"darlehen"}/></td>
+                                           name={"darlehen"} value={this.state.darlehen}/></td>
                             </tr>
                             <tr>
                                 <td>Zwischensumme:</td>
@@ -84,7 +98,9 @@ export default class PerformanceStats extends Component {
                             <tr>
                                 <td>Kontostand:</td>
                                 <td><input type="number" className="form-text" onChange={this.__handleFieldChange}
-                                           name={"kontostand"}/></td>
+                                           name={"kontostand"}
+                                           value={this.state.kontostand}
+                                /></td>
                             </tr>
                             <tr>
                                 <td>Liquidationssaldo:</td>
@@ -93,22 +109,22 @@ export default class PerformanceStats extends Component {
                             <tr>
                                 <td>Dividende 2020:</td>
                                 <td><input type="number" className="form-text" onChange={this.__handleFieldChange}
-                                           name={"dividende_2020"}/></td>
+                                           name={"dividende_2020"} value={this.state.dividende_2020}/></td>
                             </tr>
                             <tr>
                                 <td>Dividende 2019</td>
                                 <td><input type="number" className="form-text" onChange={this.__handleFieldChange}
-                                           name={"dividende_2019"}/></td>
+                                           name={"dividende_2019"} value={this.state.dividende_2019}/></td>
                             </tr>
                             <tr>
                                 <td>Geldtransfer 2020</td>
                                 <td><input type="number" className="form-text" onChange={this.__handleFieldChange}
-                                           name={"geldtransfer_2020"}/></td>
+                                           name={"geldtransfer_2020"} value={this.state.geldtransfer_2020}/></td>
                             </tr>
                             <tr>
                                 <td>Geldtransfer 2019</td>
                                 <td><input type="number" className="form-text" onChange={this.__handleFieldChange}
-                                           name={"geldtransfer_2019"}/></td>
+                                           name={"geldtransfer_2019"} value={this.state.geldtransfer_2019}/></td>
                             </tr>
                             <tr>
                                 <td>Ergebnis:</td>
