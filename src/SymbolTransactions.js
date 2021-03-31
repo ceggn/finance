@@ -351,10 +351,51 @@ export const transactions = [
         commission: 0,
         notes: '',
     },
-
-
-
+    {
+        symbol: 'BSN-GY',
+        name: 'DANONE',
+        type: 'Buy',
+        date: '',
+        shares: 500,
+        price: 62.60,
+        cashValue: null,
+        commission: 0,
+        notes: '',
+    },
+    {
+        symbol: 'NOVN-SE',
+        name: 'Novartis AG - Registered Shares',
+        type: 'Buy',
+        date: '',
+        shares: 300,
+        price: 77.33,
+        cashValue: null,
+        commission: 0,
+        notes: '',
+    },
+    {
+        symbol: 'SCT-GF',
+        name: 'SSE Plc.',
+        type: 'Buy',
+        date: '',
+        shares: 1500,
+        price: 13.53,
+        cashValue: null,
+        commission: 0,
+        notes: '',
+    },
+    {
+        symbol: 'R6C-GY',
+        name: 'Royal Dutch Shell Plc - Class A',
+        type: 'Buy',
+        date: '',
+        shares: 4500,
+        price: 22.74,
+        cashValue: null,
+        commission: 0,
+        notes: '',
+    },
 ]
 export const symbols = [
-    'ALV-GY', 'AXA-GY', 'BAS-GY', 'BAYN-GY', 'BEI-GY', 'DAI-GY', 'ECV-GY', 'FRE-GY', 'HOT-GY', 'LHA-GY', 'SAP-GY', 'TLG-GY', 'TUI1-GY', 'WDI-GY', 'T', 'BTQ-GM', 'CCC3-GY', 'GZF-GY', 'GS7-GY', 'INN1-GY', 'INTC', 'NOA3-GY', 'NOTA-GM', 'PRG-GY', '3RB-GF', 'SNW-GY', 'SCTA-GF', 'TNE5-GY', 'UNVB-GY', 'URW-FP', 'WBA', 'ZURN-SE'
+    'ALV-GY', 'AXA-GY', 'BAS-GY', 'BAYN-GY', 'BEI-GY', 'DAI-GY', 'ECV-GY', 'FRE-GY', 'HOT-GY', 'LHA-GY', 'SAP-GY', 'TLG-GY', 'TUI1-GY', 'WDI-GY', 'T', 'BTQ-GM', 'CCC3-GY', 'GZF-GY', 'GS7-GY', 'INN1-GY', 'INTC', 'NOA3-GY', 'NOTA-GM', 'PRG-GY', '3RB-GF', 'SNW-GY', 'SCTA-GF', 'TNE5-GY', 'UNVB-GY', 'URW-FP', 'WBA', 'ZURN-SE', 'BSN-GY', 'NOVN-SE', 'SCT-GF', 'R6C-GY'
 ]
