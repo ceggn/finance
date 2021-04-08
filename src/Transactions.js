@@ -3,7 +3,7 @@
 import * as React from "react";
 import {Button, Col, Row} from "reactstrap";
 import type {AppSettings, AppState, Dispatch, Quote, Transaction} from "./types";
-import {changePageSize, deleteTransactions, HASH} from "./actions";
+import {changePageSize, deleteTransactions, delTransactionsInDb, HASH} from "./actions";
 import {currencyFormatter, numberFormatter} from "./formatters";
 import {Link} from "react-router-dom";
 import PortfolioContainer from "./PortfolioContainer";
@@ -113,6 +113,7 @@ class Transactions extends React.Component<Props, State> {
             this.state.selectedTransactionIds.has(transaction.id)
         );
         this.props.dispatch(deleteTransactions(transactionsToDelete));
+        delTransactionsInDb(transactionsToDelete);
     };
 
     handlePageSizeChange = (nextPageSize: number) => {

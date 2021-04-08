@@ -10,6 +10,7 @@
     "@vx/group": "^0.0.161",
     "@vx/scale": "^0.0.161",
     "@vx/shape": "^0.0.162",
+    "axios": "^0.21.1",
     "bootstrap": "^4.1.1",
     "classnames": "^2.2.5",
     "csv-parse": "^4.4.6",

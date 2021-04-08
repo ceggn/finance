@@ -7,7 +7,7 @@ import {Col, Container, Row} from "reactstrap";
 import type {Dispatch} from "./types";
 import Navbar from "./Navbar";
 import SpinKit from "./SpinKit";
-import {fetchAllQuotes} from "./actions";
+import {fetchAllQuotes, getTransactionsFromDb, setTransactions} from "./actions";
 import {useDispatch} from "react-redux";
 import {Login} from "./Login";
 
@@ -30,10 +30,14 @@ function LoadingIndicator() {
 export default function App(): React.Node {
     const dispatch = useDispatch<Dispatch>();
     React.useEffect(() => {
-        dispatch(fetchAllQuotes());
+        actions() ////    Code By Faisal
     }, [dispatch]);
 
-
+async function actions() {
+    let response = await getTransactionsFromDb();
+    dispatch(setTransactions(response.transactions));
+    dispatch(fetchAllQuotes(response.symbols));
+}
     return (
         <Router>
             <div>

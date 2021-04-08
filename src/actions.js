@@ -17,8 +17,10 @@ import type {
 } from "./types";
 import csvParse from "csv-parse/lib/es5/sync";
 import {transformGfToStocks} from "./transformers";
+import axios from "axios";
 
 export const IEX_ROOT = "https://cloud.iexapis.com/v1";
+export const API_URL = "http://finance-api.test/finance-api";
 
 export function addSymbol(symbol: string): AddSymbolAction {
     return {symbol, type: "ADD_SYMBOL"};
@@ -56,6 +58,10 @@ export function downloadPortfolio(): DownloadPortfolioAction {
 
 export function setIexApiKey(iexApiKey: string): SetIexApiKeyAction {
     return {iexApiKey, type: "SET_IEX_API_KEY"};
+}
+
+export function setTransactions(transactions: Array<Transaction>): AddTransactionsAction {  ////    Code By Faisal
+    return {transactions, type: "SET_TRANSACTIONS"};
 }
 
 // A timeout to periodically fetch new quotes.
@@ -106,7 +112,7 @@ export function fetchSymbolData(symbol: string): ThunkAction {
     };
 }
 
-export function fetchAllQuotes(): ThunkAction {
+export function fetchAllQuotes(data=null): ThunkAction {
     return function (dispatch: Dispatch, getState: GetState) {
         function setFetchQuotesTimeout() {
             // Because more `fetchQuote` actions might be in flight, ensure the timer is empty and
@@ -132,7 +138,7 @@ export function fetchAllQuotes(): ThunkAction {
         fetch(
             `${IEX_ROOT}/stock/market/batch?types=quote&token=${
                 getState().iexApiKey
-            }&symbols=${encodeURIComponent(getState().symbols.join(","))}`
+            }&symbols=${encodeURIComponent(data ? data.join(",") : getState().symbols.join(","))}`
         )
             .then((response) => {
                 response
@@ -221,3 +227,29 @@ export function importTransactionsFile(file: Blob): ThunkAction {
         fileReader.readAsText(file);
     };
 }
+////    Code by Faisal
+export async function getTransactionsFromDb() {
+    let data = await axios.get(API_URL)
+    return data.data
+}
+
+export function setTransactionsInDb(data) {
+    let bodyFormData = new FormData();
+    Object.keys(data).forEach(key => bodyFormData.append(key, data[key]));
+    axios({
+        method: 'POST',
+        url: API_URL,
+        data: bodyFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+    });
+}
+
+export function delTransactionsInDb(data) {
+    axios({
+        method: 'DELETE',
+        url: API_URL,
+        data: {'ids':data.map(item => item.db_id)},
+        headers: { "Content-Type": "multipart/form-data" },
+    });
+}
+////

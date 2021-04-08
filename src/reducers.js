@@ -180,6 +180,24 @@ export default function (state: AppState, action: Action): AppState {
         ...state,
         exchanges: action.exchanges,
       };
+      case "SET_TRANSACTIONS": {  ////  Code By Faisal
+          // Ensure no duplicate symbols are added.
+          const nextSymbols = new Set(state.symbols);
+          let nextTransactionId = 1;
+          const newTransactions = action.transactions.map((transaction) => {
+              nextSymbols.add(transaction.symbol);
+              const newTransaction = { ...transaction, id: nextTransactionId, db_id: Number(transaction.id)};
+              nextTransactionId += 1;
+              return newTransaction;
+          });
+
+          return {
+              ...state,
+              nextTransactionId,
+              symbols: Array.from(nextSymbols),
+              transactions: newTransactions,
+          };
+      }
     default:
       return state;
   }

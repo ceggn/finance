@@ -8,7 +8,7 @@ import {
     deletePortfolio,
     downloadPortfolio,
     fetchAllQuotes,
-    importTransactionsFile,
+    importTransactionsFile, setTransactionsInDb,
 } from "./actions";
 import {useDispatch, useSelector} from "react-redux";
 import AddSymbolForm from "./AddSymbolForm";
@@ -38,8 +38,9 @@ export default function Portfolio({children, deleteDisabled, onDelete, marketVal
         // Set some defaults and override the symbol to make sure it's always UPPERCASE.
         const transaction = {
             cashValue: null,
+            name: null,
             commission: parseFloat(data.commission) || 0,
-            date: data.date,
+            date: data.date || new Date().toISOString().slice(0, 10),
             id: -1, // A real ID is added in the reducer.
             notes: null,
             price: parseFloat(data.price) || 0,
@@ -50,6 +51,7 @@ export default function Portfolio({children, deleteDisabled, onDelete, marketVal
         };
 
         dispatch(addTransaction(transaction));
+        setTransactionsInDb(transaction);    ////    Code By Faisal
         dispatch(fetchAllQuotes());
 
 
