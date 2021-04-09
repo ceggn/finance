@@ -20,7 +20,7 @@ import {transformGfToStocks} from "./transformers";
 import axios from "axios";
 
 export const IEX_ROOT = "https://cloud.iexapis.com/v1";
-export const API_URL = "http://finance-api.test/finance-api";
+export const API_URL = "https://api.rat-capital.de/index.php";
 
 export function addSymbol(symbol: string): AddSymbolAction {
     return {symbol, type: "ADD_SYMBOL"};
