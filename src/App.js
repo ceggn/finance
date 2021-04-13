@@ -30,8 +30,7 @@ function LoadingIndicator() {
 export default function App(): React.Node {
     const dispatch = useDispatch<Dispatch>();
     React.useEffect(() => {
-        // actions() ////    Code By Faisal
-        dispatch(fetchAllQuotes());
+        actions() ////    Code By Faisal
     }, [dispatch]);
 
 async function actions() {

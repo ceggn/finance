@@ -113,7 +113,7 @@ class Transactions extends React.Component<Props, State> {
             this.state.selectedTransactionIds.has(transaction.id)
         );
         this.props.dispatch(deleteTransactions(transactionsToDelete));
-        // delTransactionsInDb(transactionsToDelete);
+        delTransactionsInDb(transactionsToDelete);
     };
 
     handlePageSizeChange = (nextPageSize: number) => {

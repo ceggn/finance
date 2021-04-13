@@ -98,7 +98,7 @@ const TABLE_COLUMNS = [
         Footer: (props) => (
             <div className="text-right">
                 {currencyFormatter.format(
-                    props.data.reduce((total, current) => total + current.costBasis, 0)
+                    props.data.reduce((total, current) => Number(total) + Number(current.costBasis), 0)
                 )}
             </div>
         ),
@@ -276,8 +276,8 @@ class Performance extends React.Component<Props, State> {
                 // Only summing 'Buy' transactions.
                 if (transaction.type !== "Buy") return;
 
-                costBasis += transaction.price * transaction.shares;
-                costBasis += transaction.commission;
+                costBasis += Number(transaction.price) * Number(transaction.shares);
+                costBasis += Number(transaction.commission);
                 totalShares += transaction.shares;
                 if (quote != null) marketValue += quote.latestPrice * transaction.shares;
             });
