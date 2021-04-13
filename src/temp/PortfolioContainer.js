@@ -40,7 +40,7 @@ export default function Portfolio({children, deleteDisabled, onDelete, marketVal
             cashValue: null,
             name: null,
             commission: parseFloat(data.commission) || 0,
-            date: data.date /*|| new Date().toISOString().slice(0, 10)*/,
+            date: data.date || new Date().toISOString().slice(0, 10),
             id: -1, // A real ID is added in the reducer.
             notes: null,
             price: parseFloat(data.price) || 0,
@@ -51,7 +51,7 @@ export default function Portfolio({children, deleteDisabled, onDelete, marketVal
         };
 
         dispatch(addTransaction(transaction));
-        // setTransactionsInDb(transaction);    ////    Code By Faisal
+        setTransactionsInDb(transaction);    ////    Code By Faisal
         dispatch(fetchAllQuotes());
 
 

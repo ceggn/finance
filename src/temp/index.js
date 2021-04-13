@@ -34,8 +34,8 @@ const initialState: AppState = {
     isFetchingCount: 0,
     nextTransactionId: 1,
     quotes: {},
-    symbols: symbols,
-    transactions: transactions,
+    symbols: [],
+    transactions: [],
     exchanges: [],
     updatedAt: null,
 };
