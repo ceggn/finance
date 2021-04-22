@@ -20,7 +20,8 @@ import {transformGfToStocks} from "./transformers";
 import axios from "axios";
 
 export const IEX_ROOT = "https://cloud.iexapis.com/v1";
-export const API_URL = "https://api.rat-capital.de/index.php";
+// export const API_URL = "https://api.rat-capital.de/index.php";
+export const API_URL = "http://localhost/apps/finance-app-api/index.php";
 
 export function addSymbol(symbol: string): AddSymbolAction {
     return {symbol, type: "ADD_SYMBOL"};
@@ -207,6 +208,26 @@ export function fetchAllIexSymbols(): ThunkAction {
             })
             .catch((error) => {
                 dispatch({error, type: "FETCH_ALL_IEX_SYMBOLS_FAILURE"});
+            });
+    };
+}
+
+export function fetchAllISINSymbols(isin: string): ThunkAction {
+    return function (dispatch: Dispatch, getState: GetState) {
+        dispatch({type: "FETCH_ALL_ISIN_SYMBOLS_REQUEST"});
+        fetch(`${IEX_ROOT}/ref-data/isin?token=${getState().iexApiKey}&isin=${isin}`)
+            .then((response) => {
+                response
+                    .json()
+                    .then((data) => {
+                        dispatch({allISINSymbols: data, type: "FETCH_ALL_ISIN_SYMBOLS_SUCCESS"});
+                    })
+                    .catch((error) => {
+                        dispatch({error, type: "FETCH_ALL_ISIN_SYMBOLS_FAILURE"});
+                    });
+            })
+            .catch((error) => {
+                dispatch({error, type: "FETCH_ALL_ISIN_SYMBOLS_FAILURE"});
             });
     };
 }

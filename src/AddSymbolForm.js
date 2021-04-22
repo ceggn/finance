@@ -3,10 +3,9 @@
 import * as React from "react";
 import {Button, Col, Collapse, Form, FormGroup, Input, Label, Row} from "reactstrap";
 import formSerialize from "form-serialize";
-import {useEffect} from "react";
 import { useDispatch, useSelector} from "react-redux";
 import type { Dispatch } from "./types";
-import {fetchAllExchanges} from "./actions";
+import {fetchAllISINSymbols} from "./actions";
 
 type Props = {
   isLoading: boolean,
@@ -15,14 +14,9 @@ type Props = {
 
 export default function AddSymbolForm(props: Props): React.Node {
   const [showTransactionData, setShowTransactionData] = React.useState(false);
-  const exchanges = useSelector(state => state.exchanges);
+  const isinSymbolsRequest = useSelector(state => state.isFetchingAllISINSymbols);
+  const isinSymbols = useSelector(state => state.allISINSymbols);
   const dispatch = useDispatch<Dispatch>();
-
-  useEffect(()=>{
-    if(exchanges.length === 0){
-      dispatch(fetchAllExchanges());
-    }
-  },[]);
 
   const formEl = React.useRef(null);
 
@@ -33,11 +27,18 @@ export default function AddSymbolForm(props: Props): React.Node {
     if (formEl.current != null) formEl.current.reset();
   }
 
-  const _options = () =>{
-    return exchanges.map(( item, index) => {
-      return <option value={item.exchangeSuffix} key={index}>{item.description + ' (' + item.mic + ')'}</option>
-    })
-  }
+  const _symbols = () =>{
+    return isinSymbols ? isinSymbols.map(( item, index) => {
+      return <option value={item.symbol} key={index}>{`${item.symbol} - ${item.exchange} - ${item.region}`}</option>
+    }) : null;
+  };
+
+  const _getSymbolsByISIN = (e) => {
+    const val = e.target.value;
+    if(val) {
+      dispatch(fetchAllISINSymbols(val));
+    }
+  };
 
   return (
     <div className="card">
@@ -46,16 +47,18 @@ export default function AddSymbolForm(props: Props): React.Node {
           <Row>
             <Col sm={6} xs={12}>
               <FormGroup>
-                <Label for="symbol">Symbol</Label>
-                <Input autoComplete="off" bsSize="sm" id="symbol" name="symbol" required />
+                <Label for="symbol">ISIN</Label>
+                <Input autoComplete="off" bsSize="sm" id="isin" name="isin" required
+                       onBlur={_getSymbolsByISIN} disabled={isinSymbolsRequest} />
               </FormGroup>
             </Col>
             <Col sm={6} xs={12}>
               <FormGroup>
-                <Label for='ex-suffix'>Stock Exchange</Label>
-                <Input type="select" name="exSuffix" bsSize="sm" id="exSuffix" required>
-                  <option value=''>All Stock Exchanges</option>
-                  {_options()}
+                <Label for="symbol">Symbol</Label>
+                <Input type="select" name="symbol" bsSize="sm" id="symbol" required
+                       disabled={isinSymbolsRequest}>
+                  <option value=''>Select a Symbol</option>
+                  {_symbols()}
                 </Input>
               </FormGroup>
             </Col>

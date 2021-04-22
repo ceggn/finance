@@ -134,6 +134,22 @@ export default function (state: AppState, action: Action): AppState {
         allIexSymbols: action.allIexSymbols,
         isFetchingAllIexSymbols: false,
       };
+    case "FETCH_ALL_ISIN_SYMBOLS_FAILURE":
+      return {
+        ...state,
+        isFetchingAllISINSymbols: false,
+      };
+    case "FETCH_ALL_ISIN_SYMBOLS_REQUEST":
+      return {
+        ...state,
+        isFetchingAllISINSymbols: true,
+      };
+    case "FETCH_ALL_ISIN_SYMBOLS_SUCCESS":
+      return {
+        ...state,
+        allISINSymbols: action.allISINSymbols,
+        isFetchingAllISINSymbols: false,
+      };
     case "FETCH_SYMBOL_DATA_REQUEST":
       return {
         ...state,
