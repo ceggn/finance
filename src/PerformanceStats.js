@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Table} from "reactstrap";
-import {IEX_ROOT} from "./actions";
+import {API_URL_STATS, IEX_ROOT} from "./actions";
 
 export default class PerformanceStats extends Component {
 
@@ -10,46 +10,82 @@ export default class PerformanceStats extends Component {
             marketValueTotal: props.marketValueTotal,
             fcraktien: 0,
             depotjulius: 0,
-            darlehen: 1810000,
-            kontostand: 131301.66,
-            dividende_2020: 310550,
-            dividende_2019: 71450,
-            geldtransfer_2020: 126500,
-            geldtransfer_2019: 100000,
+            darlehen: 0,
+            kontostand: 0,
+            dividende_2020: 0,
+            dividende_2019: 0,
+            showingAlert: false,
+            geldtransfer_2020: 0,
+            geldtransfer_2019: 0,
             zwischensumme: 0,
             liquidationssaldo: 0,
             ergebnis: 0
         }
 
         this.__handleFieldChange = this.__handleFieldChange.bind(this);
+        this.__handleSubmit = this.__handleSubmit.bind(this);
     }
 
     componentDidMount() {
-        fetch(`${IEX_ROOT}/stock/FC9-GY/price?token=${JSON.parse((localStorage['default'] || '{}'))['iexApiKey']}`)
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({fcraktien: (result * 1406000)}, () => {
-                        this.setState({
-                            depotjulius: (this.state.marketValueTotal).toFixed(2)
-                        }, () => {
+        fetch(`${API_URL_STATS}`).then(res => res.json()).then((result) => {
+            this.setState({
+                darlehen: result[0]['darlehen'],
+                kontostand: result[0]['kontostand'],
+                dividende_2020: result[0]['dividende_2020'],
+                dividende_2019: result[0]['dividende_2019'],
+                geldtransfer_2020: result[0]['geldtransfer_2020'],
+                geldtransfer_2019: result[0]['geldtransfer_2019'],
+            });
+        }).then(
+            fetch(`${IEX_ROOT}/stock/FC9-GY/price?token=${JSON.parse((localStorage['default'] || '{}'))['iexApiKey']}`)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        this.setState({fcraktien: (result * 1406000)}, () => {
                             this.setState({
-                                zwischensumme:
-                                    (parseFloat(this.state.depotjulius) - parseFloat(this.state.darlehen)).toFixed(2)
+                                depotjulius: (this.state.marketValueTotal).toFixed(2)
                             }, () => {
                                 this.setState({
-                                    liquidationssaldo:
-                                        (parseFloat(this.state.kontostand) + parseFloat(this.state.zwischensumme)).toFixed(2)
+                                    zwischensumme:
+                                        (parseFloat(this.state.depotjulius) - parseFloat(this.state.darlehen)).toFixed(2)
                                 }, () => {
                                     this.setState({
-                                        ergebnis: (this.state.liquidationssaldo - this.state.dividende_2020 - this.state.dividende_2019 - this.state.geldtransfer_2020 - this.state.geldtransfer_2019).toFixed(2)
+                                        liquidationssaldo:
+                                            (parseFloat(this.state.kontostand) + parseFloat(this.state.zwischensumme)).toFixed(2)
+                                    }, () => {
+                                        this.setState({
+                                            ergebnis: (this.state.liquidationssaldo - this.state.dividende_2020 - this.state.dividende_2019 - this.state.geldtransfer_2020 - this.state.geldtransfer_2019).toFixed(2)
+                                        })
                                     })
                                 })
                             })
                         })
-                    })
-                }
-            )
+                    }
+                )
+        )
+    }
+
+    __handleSubmit(event) {
+        const formData = new FormData();
+        formData.append('darlehen', this.state.darlehen);
+        formData.append('kontostand', this.state.kontostand);
+        formData.append('dividende_2020', this.state.dividende_2020);
+        formData.append('dividende_2019', this.state.dividende_2019);
+        formData.append('geldtransfer_2020', this.state.geldtransfer_2020);
+        formData.append('geldtransfer_2019', this.state.geldtransfer_2019);
+
+        fetch(`${API_URL_STATS}`, {
+            method: 'POST',
+            body: formData,
+        }).then(response => response.json()).then(data => {
+
+        })
+        this.setState({showingAlert:true});
+        setTimeout(() => {
+            this.setState({
+                showingAlert: false
+            });
+        }, 2000);
     }
 
     __handleFieldChange(event) {
@@ -132,8 +168,27 @@ export default class PerformanceStats extends Component {
                                 <td>Ergebnis:</td>
                                 <td>{this.state.ergebnis}</td>
                             </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <div className="position-relative form-group">
+                                        <button type="submit" className="btn btn-primary btn-sm"
+                                                onClick={this.__handleSubmit}>Speichern
+                                        </button>
+                                    </div>
+
+
+                                </td>
+                            </tr>
                             </tbody>
                         </Table>
+                        {this.state.showingAlert ? <React.Fragment>
+                            <div
+                                className={`alert alert-success ${this.state.showingAlert ? 'alert-shown' : 'alert-hidden'}`}>
+                                Data Saved
+                            </div>
+
+                        </React.Fragment> : ''}
                     </div>
                 </div>
                 <br/>
