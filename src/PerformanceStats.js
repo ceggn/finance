@@ -41,7 +41,7 @@ export default class PerformanceStats extends Component {
                 .then(res => res.json())
                 .then(
                     (result) => {
-                        this.setState({fcraktien: (result * 1406000)}, () => {
+                        this.setState({fcraktien: (result * 1406000).toFixed(2)}, () => {
                             this.setState({
                                 depotjulius: (this.state.marketValueTotal).toFixed(2)
                             }, () => {
