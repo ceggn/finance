@@ -67,12 +67,12 @@ export default class PerformanceStats extends Component {
 
     __handleSubmit(event) {
         const formData = new FormData();
-        formData.append('darlehen', this.state.darlehen);
-        formData.append('kontostand', this.state.kontostand);
-        formData.append('dividende_2020', this.state.dividende_2020);
-        formData.append('dividende_2019', this.state.dividende_2019);
-        formData.append('geldtransfer_2020', this.state.geldtransfer_2020);
-        formData.append('geldtransfer_2019', this.state.geldtransfer_2019);
+        formData.append('darlehen', parseFloat(this.state.darlehen).toFixed(2));
+        formData.append('kontostand', parseFloat(this.state.kontostand).toFixed(2));
+        formData.append('dividende_2020', parseFloat(this.state.dividende_2020).toFixed(2));
+        formData.append('dividende_2019', parseFloat(this.state.dividende_2019).toFixed(2));
+        formData.append('geldtransfer_2020', parseFloat(this.state.geldtransfer_2020).toFixed(2));
+        formData.append('geldtransfer_2019', parseFloat(this.state.geldtransfer_2019).toFixed(2));
 
         fetch(`${API_URL_STATS}`, {
             method: 'POST',
@@ -80,7 +80,7 @@ export default class PerformanceStats extends Component {
         }).then(response => response.json()).then(data => {
 
         })
-        this.setState({showingAlert:true});
+        this.setState({showingAlert: true});
         setTimeout(() => {
             this.setState({
                 showingAlert: false
@@ -91,7 +91,7 @@ export default class PerformanceStats extends Component {
     __handleFieldChange(event) {
         //simple data fields
         this.setState({
-            [event.target.name]: event.target.value
+            [event.target.name]: parseFloat(event.target.value).toFixed(2)
         }, () => {
             this.setState({
                 zwischensumme:
@@ -116,8 +116,12 @@ export default class PerformanceStats extends Component {
                             <tbody>
                             <h4>Depot</h4>
                             <tr>
+                                <td>Portfolio Gesamtwert</td>
+                                <td>{parseFloat(this.state.fcraktien) + parseFloat(this.state.depotjulius)}</td>
+                            </tr>
+                            <tr>
                                 <td>FCR Aktien</td>
-                                <td>{this.state.fcraktien}</td>
+                                <td>{parseFloat(this.state.fcraktien).toFixed(2)}</td>
                             </tr>
                             <tr>
                                 <td>Depot Julius Bär</td>
@@ -127,7 +131,7 @@ export default class PerformanceStats extends Component {
                             <tr>
                                 <td>Darlehen</td>
                                 <td><input type="number" className="form-text" onChange={this.__handleFieldChange}
-                                           name={"darlehen"} value={this.state.darlehen}/></td>
+                                           name={"darlehen"} step="any" value={this.state.darlehen}/></td>
                             </tr>
                             <tr>
                                 <td>Zwischensumme:</td>
