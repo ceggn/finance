@@ -29,12 +29,12 @@ export default class PerformanceStats extends Component {
     componentDidMount() {
         fetch(`${API_URL_STATS}`).then(res => res.json()).then((result) => {
             this.setState({
-                darlehen: result[0]['darlehen'],
-                kontostand: result[0]['kontostand'],
-                dividende_2020: result[0]['dividende_2020'],
-                dividende_2019: result[0]['dividende_2019'],
-                geldtransfer_2020: result[0]['geldtransfer_2020'],
-                geldtransfer_2019: result[0]['geldtransfer_2019'],
+                darlehen: parseFloat(result[0]['darlehen']).toFixed(2),
+                kontostand: parseFloat(result[0]['kontostand']).toFixed(2),
+                dividende_2020: parseFloat(result[0]['dividende_2020']).toFixed(2),
+                dividende_2019: parseFloat(result[0]['dividende_2019']).toFixed(2),
+                geldtransfer_2020: parseFloat(result[0]['geldtransfer_2020']).toFixed(2),
+                geldtransfer_2019: parseFloat(result[0]['geldtransfer_2019']).toFixed(2),
             });
         }).then(
             fetch(`${IEX_ROOT}/stock/FC9-GY/price?token=${JSON.parse((localStorage['default'] || '{}'))['iexApiKey']}`)
