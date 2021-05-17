@@ -117,15 +117,15 @@ export default class PerformanceStats extends Component {
                             <h4>Depot</h4>
                             <tr>
                                 <td>Portfolio Gesamtwert</td>
-                                <td>{parseFloat(this.state.fcraktien) + parseFloat(this.state.depotjulius)}</td>
+                                <td>{(parseFloat(this.state.fcraktien) + parseFloat(this.state.depotjulius)).toLocaleString("de-DE")}</td>
                             </tr>
                             <tr>
                                 <td>FCR Aktien</td>
-                                <td>{parseFloat(this.state.fcraktien).toFixed(2)}</td>
+                                <td>{parseFloat(this.state.fcraktien).toLocaleString("de-DE")}</td>
                             </tr>
                             <tr>
                                 <td>Depot Julius Bär</td>
-                                <td>{this.state.depotjulius}</td>
+                                <td>{parseFloat(this.state.depotjulius).toLocaleString("de-DE")}</td>
                             </tr>
                             <h4>Liquidation</h4>
                             <tr>
@@ -135,7 +135,7 @@ export default class PerformanceStats extends Component {
                             </tr>
                             <tr>
                                 <td>Zwischensumme:</td>
-                                <td>{this.state.zwischensumme}</td>
+                                <td>{parseFloat(this.state.zwischensumme).toLocaleString("de-DE")}</td>
                             </tr>
                             <tr>
                                 <td>Kontostand:</td>
@@ -146,7 +146,7 @@ export default class PerformanceStats extends Component {
                             </tr>
                             <tr>
                                 <td>Liquidationssaldo:</td>
-                                <td>{this.state.liquidationssaldo}</td>
+                                <td>{parseFloat(this.state.liquidationssaldo).toLocaleString("de-DE")}</td>
                             </tr>
                             <tr>
                                 <td>Dividende 2020:</td>
@@ -170,7 +170,7 @@ export default class PerformanceStats extends Component {
                             </tr>
                             <tr>
                                 <td>Ergebnis:</td>
-                                <td>{this.state.ergebnis}</td>
+                                <td>{parseFloat(this.state.ergebnis).toLocaleString("de-DE")}</td>
                             </tr>
                             <tr>
                                 <td></td>
