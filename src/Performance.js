@@ -282,7 +282,17 @@ class Performance extends React.Component<Props, State> {
                 costBasis += Number(transaction.price) * Number(transaction.shares);
                 costBasis += Number(transaction.commission);
                 totalShares += transaction.shares;
-                if (quote != null) marketValue += quote.latestPrice * transaction.shares;
+                if (quote != null) {
+                    if (quote.latestPrice == null) {
+                        marketValue += manualPrice * transaction.shares
+                        console.log("Symbol");
+                        console.log(symbol);
+                        console.log("Market value");
+                        console.log(marketValue);
+                    } else {
+                        marketValue += quote.latestPrice * transaction.shares;
+                    }
+                }
             });
 
             const gain = marketValue - costBasis;
