@@ -221,6 +221,7 @@ class Performance extends React.Component<Props, State> {
             marketValueTotal: 0
         };
     }
+
     componentDidMount() {
         sessionStorage.getItem('auth-token') === null && sessionStorage.getItem('auth-token') != HASH ?
             this.props.history.push('/login') : this.props.history.push('/performance')
@@ -272,10 +273,12 @@ class Performance extends React.Component<Props, State> {
             let costBasis = 0;
             let marketValue = 0;
             let totalShares = 0;
+            let manualPrice = 0;
             transactions.forEach((transaction) => {
                 // Only summing 'Buy' transactions.
                 if (transaction.type !== "Buy") return;
 
+                manualPrice = transaction.latestPrice;
                 costBasis += Number(transaction.price) * Number(transaction.shares);
                 costBasis += Number(transaction.commission);
                 totalShares += transaction.shares;
@@ -285,10 +288,24 @@ class Performance extends React.Component<Props, State> {
             const gain = marketValue - costBasis;
             let gainPercent = 0;
             if (quote != null) gainPercent = gain / costBasis;
-
+            // console.log(symbol.latestPrice);
             // Show returns only if the user owns shares and the quote has been returned from the API call.
             // Showing any earlier will look like some erroneous and funky data.
             const showReturns = totalShares > 0 && quote != null;
+
+
+            /**/
+            let latestPrice
+            if (quote != null) {
+                if (quote.latestPrice == null) {
+                    latestPrice = parseFloat(manualPrice).toFixed(2);
+                } else {
+                    latestPrice = quote.latestPrice;
+                }
+            } else {
+                latestPrice = null;
+            }
+            /**/
             return {
                 change: {
                     change: quote == null ? null : quote.change,
@@ -299,7 +316,7 @@ class Performance extends React.Component<Props, State> {
                 daysGain: quote == null || totalShares === 0 ? null : quote.change * totalShares,
                 gain: showReturns ? gain : null,
                 gainPercent: showReturns ? gainPercent : null,
-                latestPrice: quote == null ? null : quote.latestPrice,
+                latestPrice: latestPrice,
                 marketValue: showReturns ? marketValue : null,
                 shares: totalShares,
                 symbol,

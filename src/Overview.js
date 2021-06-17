@@ -223,17 +223,29 @@ class Overview extends React.Component<Props, State> {
             let costBasis = 0;
             let totalShares = 0;
             let marketValue = 0;
+            let manualPrice=0;
             transactions.forEach((transaction) => {
                 // Only summing 'Buy' transactions.
                 if (transaction.type !== "Buy") return;
-
+                manualPrice = transaction.latestPrice;
                 costBasis += transaction.price * transaction.shares;
                 costBasis += transaction.commission;
                 totalShares += transaction.shares;
                 if (quote != null) marketValue += quote.latestPrice * transaction.shares;
             });
 
-
+            /**/
+            let latestPrice
+            if (quote != null) {
+                if (quote.latestPrice == null) {
+                    latestPrice = parseFloat(manualPrice).toFixed(2);
+                } else {
+                    latestPrice = quote.latestPrice;
+                }
+            } else {
+                latestPrice = null;
+            }
+            /**/
             const showReturns = totalShares > 0 && quote != null;
             return {
                 change: {
@@ -243,7 +255,7 @@ class Overview extends React.Component<Props, State> {
                 companyName: quote == null ? null : quote.companyName,
                 daysGain: quote == null || totalShares === 0 ? null : quote.change * totalShares,
                 high: quote == null ? null : quote.high,
-                latestPrice: quote == null ? null : quote.latestPrice,
+                latestPrice: latestPrice,
                 latestVolume: quote == null ? null : quote.latestVolume,
                 low: quote == null ? null : quote.low,
                 marketCap: quote == null ? null : quote.marketCap,
