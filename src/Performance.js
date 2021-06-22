@@ -285,14 +285,17 @@ class Performance extends React.Component<Props, State> {
                 if (quote != null) {
                     if (quote.latestPrice == null) {
                         marketValue += manualPrice * transaction.shares
-                        console.log("Symbol");
-                        console.log(symbol);
-                        console.log("Market value");
-                        console.log(marketValue);
+
                     } else {
                         marketValue += quote.latestPrice * transaction.shares;
                     }
-                }
+                } else if (manualPrice != 0) {
+                    console.log("Symbol");
+                    console.log(symbol);
+                    console.log("asds");
+                    marketValue += manualPrice * transaction.shares;
+                    console.log(marketValue)
+                };
             });
 
             const gain = marketValue - costBasis;
@@ -312,8 +315,10 @@ class Performance extends React.Component<Props, State> {
                 } else {
                     latestPrice = quote.latestPrice;
                 }
+            } else if (manualPrice != 0) {
+                latestPrice = parseFloat(manualPrice).toFixed(2);
             } else {
-                latestPrice = null;
+                latestPrice = 0;
             }
             /**/
             return {
@@ -322,12 +327,12 @@ class Performance extends React.Component<Props, State> {
                     changePercent: quote == null ? null : quote.changePercent,
                 },
                 companyName: quote == null ? null : quote.companyName,
-                costBasis: showReturns ? costBasis : null,
+                costBasis: costBasis,
                 daysGain: quote == null || totalShares === 0 ? null : quote.change * totalShares,
-                gain: showReturns ? gain : null,
-                gainPercent: showReturns ? gainPercent : null,
+                gain: gain,
+                gainPercent: gainPercent,
                 latestPrice: latestPrice,
-                marketValue: showReturns ? marketValue : null,
+                marketValue: marketValue,
                 shares: totalShares,
                 symbol,
             };
