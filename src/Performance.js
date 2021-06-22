@@ -274,10 +274,11 @@ class Performance extends React.Component<Props, State> {
             let marketValue = 0;
             let totalShares = 0;
             let manualPrice = 0;
+            let symbolName="";
             transactions.forEach((transaction) => {
                 // Only summing 'Buy' transactions.
                 if (transaction.type !== "Buy") return;
-
+                symbolName=transaction.name;
                 manualPrice = transaction.latestPrice;
                 costBasis += Number(transaction.price) * Number(transaction.shares);
                 costBasis += Number(transaction.commission);
@@ -326,7 +327,7 @@ class Performance extends React.Component<Props, State> {
                     change: quote == null ? null : quote.change,
                     changePercent: quote == null ? null : quote.changePercent,
                 },
-                companyName: quote == null ? null : quote.companyName,
+                companyName: quote == null ? symbolName : quote.companyName,
                 costBasis: costBasis,
                 daysGain: quote == null || totalShares === 0 ? null : quote.change * totalShares,
                 gain: gain,
