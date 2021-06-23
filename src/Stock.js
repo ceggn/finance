@@ -95,7 +95,7 @@ export default function Stock({match}: Props): React.Node {
             method: 'POST',
             body: formData,
         })
-        window.location.reload();
+        history.push('/performance')
     }
 
     return (
