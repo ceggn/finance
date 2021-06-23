@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import {AxisLeft, AxisBottom} from "@vx/axis";
-import {Col, Container, Row} from "reactstrap";
+import {Button, Col, Container, Form, FormGroup, Input, Label, Row} from "reactstrap";
 import {
     abbreviatedNumberFormatter,
     currencyFormatter,
@@ -17,8 +17,8 @@ import type {Dispatch} from "./types";
 import {Group} from "@vx/group";
 import {LinearGradient} from "@vx/gradient";
 import cx from "classnames";
-import {fetchSymbolData, HASH} from "./actions";
-import { useHistory } from "react-router";
+import {API_URL, API_URL_STATS, fetchSymbolData, HASH} from "./actions";
+import {useHistory} from "react-router";
 
 type Props = {
     match: Object,
@@ -56,9 +56,14 @@ export default function Stock({match}: Props): React.Node {
     const dispatch = useDispatch<Dispatch>();
     const chart = useSelector((state) => state.charts[match.params.symbol]);
     const quote = useSelector((state) => state.quotes[match.params.symbol]);
+    const transaction = JSON.parse((localStorage['default'] || '{}'))['transactions'].filter(function (transaction) {
+        return transaction.symbol === match.params.symbol;
+    });
+
 
     React.useEffect(() => {
         dispatch(fetchSymbolData(match.params.symbol));
+
         if (sessionStorage.getItem('auth-token') === null && sessionStorage.getItem('auth-token') != HASH) {
             history.push('/login')
         }
@@ -77,6 +82,20 @@ export default function Stock({match}: Props): React.Node {
             range: [yMax, 0],
             domain: [min(chart, y) - deviationYFudge, max(chart, y) + deviationYFudge],
         });
+    }
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+
+        const formData = new FormData();
+        formData.append('action', "priceUpdate");
+        formData.append('latestPrice', document.getElementById('latestPrice').value);
+        formData.append('symbol', match.params.symbol);
+
+        fetch(`${API_URL}`, {
+            method: 'POST',
+            body: formData,
+        })
+        window.location.reload();
     }
 
     return (
@@ -138,6 +157,20 @@ export default function Stock({match}: Props): React.Node {
                             }
                         />
                     </ul>
+                    <React.Fragment>
+                        <Form>
+                            <Label for="commission">
+                                Latest Price
+                            </Label>
+                            <input type="number" className="form-text" id="latestPrice"
+                                   name={"latestPrice"} defaultValue={transaction[0]["latestPrice"]}/>
+                            <br/>
+                            <Button color="primary" size="sm" style={{"float": "right"}} onClick={handleSubmit}
+                                    type="submit">
+                                Save
+                            </Button>
+                        </Form>
+                    </React.Fragment>
                 </Col>
                 <Col className="border-top border-top-lg pt-2" md={{offset: 1, size: 7}}>
                     <h4 className="mb-3">Historie</h4>
