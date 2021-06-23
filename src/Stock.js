@@ -95,7 +95,7 @@ export default function Stock({match}: Props): React.Node {
             method: 'POST',
             body: formData,
         })
-        history.push('/performance')
+        window.location.href="https://depot.rat-capital.de/"
     }
 
     return (
@@ -163,7 +163,7 @@ export default function Stock({match}: Props): React.Node {
                                 Latest Price
                             </Label>
                             <input type="number" className="form-text" id="latestPrice"
-                                   name={"latestPrice"} defaultValue={transaction[0]["latestPrice"]}/>
+                                   name={"latestPrice"} defaultValue={transaction[0]?transaction[0]["latestPrice"]:0}/>
                             <br/>
                             <Button color="primary" size="sm" style={{"float": "right"}} onClick={handleSubmit}
                                     type="submit">
