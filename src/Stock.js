@@ -95,7 +95,7 @@ export default function Stock({match}: Props): React.Node {
             method: 'POST',
             body: formData,
         })
-        window.location.href="https://depot.rat-capital.de/"
+        // window.location.href="https://depot.rat-capital.de/"
     }
 
     return (
