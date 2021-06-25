@@ -165,6 +165,7 @@ export default class PerformanceStats extends Component {
                                            name={"dividende_2020"} value={this.state.dividende_2020}/></td>
                             </tr>
                             <tr>
+
                                 <td>Dividende 2019</td>
                                 <td><input type="number" className="form-text" onChange={this.__handleFieldChange}
                                            name={"dividende_2019"} value={this.state.dividende_2019}/></td>
