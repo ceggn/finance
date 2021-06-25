@@ -12,9 +12,11 @@ export default class PerformanceStats extends Component {
             depotjulius: 0,
             darlehen: 0,
             kontostand: 0,
+            dividende_2021: 0,
             dividende_2020: 0,
             dividende_2019: 0,
             showingAlert: false,
+            geldtransfer_2021: 0,
             geldtransfer_2020: 0,
             geldtransfer_2019: 0,
             zwischensumme: 0,
@@ -31,8 +33,10 @@ export default class PerformanceStats extends Component {
             this.setState({
                 darlehen: parseFloat(result[0]['darlehen']).toFixed(2),
                 kontostand: parseFloat(result[0]['kontostand']).toFixed(2),
+                dividende_2021: parseFloat(result[0]['dividende_2021']).toFixed(2),
                 dividende_2020: parseFloat(result[0]['dividende_2020']).toFixed(2),
                 dividende_2019: parseFloat(result[0]['dividende_2019']).toFixed(2),
+                geldtransfer_2021: parseFloat(result[0]['geldtransfer_2021']).toFixed(2),
                 geldtransfer_2020: parseFloat(result[0]['geldtransfer_2020']).toFixed(2),
                 geldtransfer_2019: parseFloat(result[0]['geldtransfer_2019']).toFixed(2),
             });
@@ -54,7 +58,7 @@ export default class PerformanceStats extends Component {
                                             (parseFloat(this.state.kontostand) + parseFloat(this.state.zwischensumme)).toFixed(2)
                                     }, () => {
                                         this.setState({
-                                            ergebnis: (this.state.liquidationssaldo - this.state.dividende_2020 - this.state.dividende_2019 - this.state.geldtransfer_2020 - this.state.geldtransfer_2019).toFixed(2)
+                                            ergebnis: (this.state.liquidationssaldo - this.state.dividende_2021 - this.state.dividende_2020 - this.state.dividende_2019 - this.state.geldtransfer_2021 - this.state.geldtransfer_2020 - this.state.geldtransfer_2019).toFixed(2)
                                         })
                                     })
                                 })
@@ -69,8 +73,10 @@ export default class PerformanceStats extends Component {
         const formData = new FormData();
         formData.append('darlehen', parseFloat(this.state.darlehen).toFixed(2));
         formData.append('kontostand', parseFloat(this.state.kontostand).toFixed(2));
+        formData.append('dividende_2021', parseFloat(this.state.dividende_2021).toFixed(2));
         formData.append('dividende_2020', parseFloat(this.state.dividende_2020).toFixed(2));
         formData.append('dividende_2019', parseFloat(this.state.dividende_2019).toFixed(2));
+        formData.append('geldtransfer_2021', parseFloat(this.state.geldtransfer_2021).toFixed(2));
         formData.append('geldtransfer_2020', parseFloat(this.state.geldtransfer_2020).toFixed(2));
         formData.append('geldtransfer_2019', parseFloat(this.state.geldtransfer_2019).toFixed(2));
 
@@ -98,7 +104,7 @@ export default class PerformanceStats extends Component {
                     (this.state.depotjulius - this.state.darlehen).toFixed(2),
                 liquidationssaldo:
                     (parseFloat(this.state.kontostand) + parseFloat(this.state.zwischensumme)).toFixed(2),
-                ergebnis: (this.state.liquidationssaldo - this.state.dividende_2020 - this.state.dividende_2019 - this.state.geldtransfer_2020 - this.state.geldtransfer_2019).toFixed(2)
+                ergebnis: (this.state.liquidationssaldo - this.state.dividende_2021 - this.state.dividende_2020 - this.state.dividende_2019 - this.state.geldtransfer_2021 - this.state.geldtransfer_2020 - this.state.geldtransfer_2019).toFixed(2)
             })
         })
 
@@ -149,6 +155,11 @@ export default class PerformanceStats extends Component {
                                 <td>{parseFloat(this.state.liquidationssaldo).toLocaleString("de-DE")}</td>
                             </tr>
                             <tr>
+                                <td>Dividende 2021:</td>
+                                <td><input type="number" className="form-text" onChange={this.__handleFieldChange}
+                                           name={"dividende_2021"} value={this.state.dividende_2021}/></td>
+                            </tr>
+                            <tr>
                                 <td>Dividende 2020:</td>
                                 <td><input type="number" className="form-text" onChange={this.__handleFieldChange}
                                            name={"dividende_2020"} value={this.state.dividende_2020}/></td>
@@ -157,6 +168,11 @@ export default class PerformanceStats extends Component {
                                 <td>Dividende 2019</td>
                                 <td><input type="number" className="form-text" onChange={this.__handleFieldChange}
                                            name={"dividende_2019"} value={this.state.dividende_2019}/></td>
+                            </tr>
+                            <tr>
+                                <td>Geldtransfer 2021</td>
+                                <td><input type="number" className="form-text" onChange={this.__handleFieldChange}
+                                           name={"geldtransfer_2021"} value={this.state.geldtransfer_2021}/></td>
                             </tr>
                             <tr>
                                 <td>Geldtransfer 2020</td>
