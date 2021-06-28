@@ -291,11 +291,7 @@ class Performance extends React.Component<Props, State> {
                         marketValue += quote.latestPrice * transaction.shares;
                     }
                 } else if (manualPrice != 0) {
-                    console.log("Symbol");
-                    console.log(symbol);
-                    console.log("asds");
                     marketValue += manualPrice * transaction.shares;
-                    console.log(marketValue)
                 };
             });
 
@@ -339,9 +335,11 @@ class Performance extends React.Component<Props, State> {
             };
         });
 
+
         let marketValueTotal = 0;
         tableData.forEach(element => marketValueTotal = marketValueTotal + element.marketValue);
-
+        console.log("Performance value");
+        console.log(marketValueTotal);
 
         const deleteDisabled = this.props.symbols.length === 0 || this.state.selectedSymbols.size === 0;
         return (

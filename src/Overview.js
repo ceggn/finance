@@ -231,7 +231,18 @@ class Overview extends React.Component<Props, State> {
                 costBasis += transaction.price * transaction.shares;
                 costBasis += transaction.commission;
                 totalShares += transaction.shares;
-                if (quote != null) marketValue += quote.latestPrice * transaction.shares;
+                manualPrice = transaction.latestPrice;
+
+                if (quote != null) {
+                    if (quote.latestPrice == null) {
+                        marketValue += manualPrice * transaction.shares
+
+                    } else {
+                        marketValue += quote.latestPrice * transaction.shares;
+                    }
+                } else if (manualPrice != 0) {
+                    marketValue += manualPrice * transaction.shares;
+                };
             });
 
             /**/
@@ -260,14 +271,17 @@ class Overview extends React.Component<Props, State> {
                 low: quote == null ? null : quote.low,
                 marketCap: quote == null ? null : quote.marketCap,
                 open: quote == null ? null : quote.open,
-                marketValue: showReturns ? marketValue : null,
+                marketValue: marketValue,
                 symbol,
             };
         });
 
         const deleteDisabled = this.props.symbols.length === 0 || this.state.selectedSymbols.size === 0;
+
         let marketValueTotal = 0;
         tableData.forEach(element => marketValueTotal = marketValueTotal + element.marketValue);
+        console.log("Overview value");
+        console.log(marketValueTotal);
         return (
             <PortfolioContainer
                 marketValueTotal={marketValueTotal}

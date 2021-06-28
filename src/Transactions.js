@@ -166,25 +166,37 @@ class Transactions extends React.Component<Props, State> {
             );
             let totalShares = 0;
             let marketValue = 0;
+            let manualPrice = 0;
             transactions.forEach((transaction) => {
                 // Only summing 'Buy' transactions.
                 if (transaction.type !== "Buy") return;
-
                 totalShares += transaction.shares;
-                if (quote != null) marketValue += quote.latestPrice * transaction.shares;
+                manualPrice = transaction.latestPrice;
+
+                if (quote != null) {
+                    if (quote.latestPrice == null) {
+                        marketValue += manualPrice * transaction.shares
+
+                    } else {
+                        marketValue += quote.latestPrice * transaction.shares;
+                    }
+                } else if (manualPrice != 0) {
+                    marketValue += manualPrice * transaction.shares;
+                };
             });
 
 
             const showReturns = totalShares > 0 && quote != null;
             return {
-                marketValue: showReturns ? marketValue : null,
+                marketValue: marketValue,
             };
         });
         const deleteDisabled =
             this.props.transactions.length === 0 || this.state.selectedTransactionIds.size === 0;
         let marketValueTotal = 0;
         generatedMarketValueTotal.forEach(element => marketValueTotal = marketValueTotal + element.marketValue);
-
+        console.log("Transaction value");
+        console.log(marketValueTotal);
         return (
             <PortfolioContainer
                 marketValueTotal={marketValueTotal}
